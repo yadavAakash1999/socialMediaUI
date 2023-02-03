@@ -1,11 +1,17 @@
 import "./topbar.css";
-import { Search, Person, Chat, Notifications } from "@material-ui/icons";
-import { Link } from "react-router-dom"
+import { Search, Person, Chat, Notifications, PowerSettingsNewOutlined } from "@material-ui/icons";
+import { Link, useNavigate } from "react-router-dom"
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 export default function Topbar() {
 const {user} = useContext(AuthContext);
 const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+const navigate =useNavigate();
+
+const logout =()=>{
+  localStorage.setItem("user",null);
+  navigate("/")
+}
   return (
     <div className="topbarContainer">
       <div className="topbarLeft">
@@ -40,6 +46,7 @@ const PF = process.env.REACT_APP_PUBLIC_FOLDER;
           </div>
         </div>
       <Link to={`/profile/${user.username}`}>  <img src={user.profilePicture ? PF+user.profilePicture : PF+"/person/noAvatar.png"} alt="" className="topbarImg" /></Link>
+      <button className="logoutBtn" onClick={()=>logout()} >Logout <PowerSettingsNewOutlined/></button>
       </div>
     </div>
   );
